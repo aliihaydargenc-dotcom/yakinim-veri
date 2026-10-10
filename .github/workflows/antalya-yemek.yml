@@ -78,6 +78,11 @@ jobs:
           test -s output/yayin_kalite_raporu.json
           test -s output/muhtemel_mukerrerler.csv
 
+      - name: Toplu veri kalite denetimi
+        run: |
+          python scripts/audit_release.py --input output
+          test -s output/toplu_test_raporu.json
+
       - name: Sonuclari arsivle
         uses: actions/upload-artifact@v4
         with:
