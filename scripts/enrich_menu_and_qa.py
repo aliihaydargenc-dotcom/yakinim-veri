@@ -11,6 +11,8 @@ from difflib import SequenceMatcher
 from pathlib import Path
 from urllib.parse import urlsplit
 
+from process_geojson import valid_link
+
 
 def folded(text):
     x = unicodedata.normalize("NFKD", str(text).replace("ı", "i").casefold())
@@ -90,6 +92,8 @@ def build(input_dir, output_dir, curated_path):
         if not r["name"].strip():
             continue
         o = dict(r)
+        o["website"] = valid_link(o.get("website", ""))
+        o["menu_url_candidate"] = valid_link(o.get("menu_url_candidate", ""))
         o["menu_url"] = ""
         o["menu_source_type"] = ""
         o["menu_checked_at"] = ""
