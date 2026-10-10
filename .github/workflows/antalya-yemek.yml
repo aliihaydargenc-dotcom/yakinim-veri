@@ -74,6 +74,14 @@ jobs:
           test -s output/yemek_mekanlar.geojson
           test -s output/ozet.json
 
+      - name: Menuleri OSM kimlikleriyle bagla ve mukerrer adaylari raporla
+        run: |
+          python scripts/enrich_menu_and_qa.py --input output --output output --menus data/menus_curated.json
+          test -s output/yemek_yayin.csv
+          test -s output/yemek_yayin.geojson
+          test -s output/yayin_kalite_raporu.json
+          test -s output/muhtemel_mukerrerler.csv
+
       - name: Sonuclari arsivle
         uses: actions/upload-artifact@v4
         with:
