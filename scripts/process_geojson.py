@@ -24,7 +24,11 @@ def valid_link(raw):
     if not value or any(c.isspace() for c in value):
         return ""
     parts = urlsplit(value)
-    return value if parts.scheme in ("http", "https") and parts.netloc else ""
+    host = (parts.hostname or "").casefold()
+    forbidden = ("instagram.com", "yemeksepeti.com")
+    if any(host == domain or host.endswith("." + domain) for domain in forbidden):
+        return ""
+    return value if parts.scheme in ("http", "https") and host and not parts.username else ""
 
 
 def point_for_geometry(geometry):
