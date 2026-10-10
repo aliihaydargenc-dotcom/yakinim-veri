@@ -1,0 +1,83 @@
+name: Antalya Yemek Verisini Hazirla
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/antalya-yemek.yml'
+      - 'scripts/**'
+      - 'tests/**'
+
+concurrency:
+  group: antalya-yemek-extract
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build-food-points:
+    name: OSM koordinatlarini ayikla
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v4
+
+      - name: Osmium kur
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends osmium-tool
+
+      - name: Python araci ve testler
+        run: |
+          python -m pip install --disable-pip-version-check "shapely>=2,<3"
+          python -m unittest discover -s tests -v
+
+      - name: Geofabrik Turkiye verisini indir
+        run: |
+          mkdir -p tmp output
+          curl --fail --location --show-error --silent \
+            --retry 4 --retry-delay 10 --retry-all-errors \
+            --connect-timeout 30 --max-time 2400 \
+            "https://download.geofabrik.de/europe/turkey-latest.osm.pbf" \
+            --output tmp/turkey.osm.pbf
+          test "$(stat -c%s tmp/turkey.osm.pbf)" -gt 100000000
+          osmium fileinfo tmp/turkey.osm.pbf
+
+      - name: Antalya merkez coğrafi kutusunu ayikla
+        run: |
+          osmium extract \
+            --bbox 30.55,36.80,30.84,36.96 \
+            --strategy complete_ways \
+            -o tmp/antalya.osm.pbf tmp/turkey.osm.pbf
+          rm tmp/turkey.osm.pbf
+
+      - name: Restoran kafe fast-food etiketlerini sec
+        run: |
+          osmium tags-filter \
+            -o tmp/yemek.osm.pbf tmp/antalya.osm.pbf \
+            'nwr/amenity=restaurant,cafe,fast_food'
+          rm tmp/antalya.osm.pbf
+
+      - name: OSM kimlikleri ve geometrileriyle GeoJSON olustur
+        run: |
+          osmium export \
+            --attributes=type,id \
+            --output tmp/yemek.geojson tmp/yemek.osm.pbf
+          rm tmp/yemek.osm.pbf
+
+      - name: CSV GeoJSON ve kalite raporu
+        run: |
+          python scripts/process_geojson.py --input tmp/yemek.geojson --output output
+          test -s output/yemek_mekanlar.csv
+          test -s output/yemek_mekanlar.geojson
+          test -s output/ozet.json
+
+      - name: Sonuclari arsivle
+        uses: actions/upload-artifact@v4
+        with:
+          name: antalya-yemek-veri
+          path: output/
+          retention-days: 30
+          if-no-files-found: error
