@@ -1,12 +1,8 @@
 name: Antalya Yemek Verisini Hazirla
 
+# Bilinçli olarak otomatik push tetiklemesi yok: veri indirmeyi şişirmemek için manuel.
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/antalya-yemek.yml'
-      - 'scripts/**'
-      - 'tests/**'
 
 concurrency:
   group: antalya-yemek-extract
