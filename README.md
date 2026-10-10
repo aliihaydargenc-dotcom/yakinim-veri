@@ -8,7 +8,7 @@ Bu depo **yalnızca veri toplamak içindir**. Canlı Yakınım uygulamasına ve 
 - Çıktılar: `yemek_mekanlar.csv`, `yemek_mekanlar.geojson`, `ozet.json`.
 
 ## İlk veri alma
-**Actions → Antalya Yemek Verisini Hazirla → Run workflow** seçin. İş tamamlandığında çalıştırmanın **Artifacts** bölümündeki `antalya-yemek-veri` arşivini indirin. `push` tetikleyicisi yalnızca ilk kurulumda çalıştırmayı başlatmak için mevcuttur.
+**Actions → Antalya Yemek Verisini Hazirla → Run workflow** seçin. İş tamamlandığında çalıştırmanın **Artifacts** bölümündeki `antalya-yemek-veri` arşivini indirin. **Otomatik `push` tetikleyicisi kapalıdır**; her değişiklikte 600+ MB veri yeniden indirilmez. Bu işi yalnızca ihtiyaç olduğunda elle çalıştırın. Sonuç paketinde `toplu_test_raporu.json` dosyası da oluşur. Menü/site URL alanlarında Instagram ve Yemeksepeti bağlantıları filtrelenir.
 
 İşlem: Geofabrik Türkiye PBF → Osmium coğrafi ayıklama → OSM yemek etiketi filtresi → GeoJSON → isim/kimlik/koordinat kontrolü → CSV + GeoJSON. Büyük PBF dosyası depoya yüklenmez; yalnız çalışma sırasında tutulur. Çıktılar GitHub Actions artifacts olarak sunulur.
 
