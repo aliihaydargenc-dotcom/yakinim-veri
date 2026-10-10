@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "policy": "Curated links are only displayed when source OSM id and exact venue alias agree. No ratings, Instagram or Yemeksepeti. Prices are not copied.",
+  "records": [
+    {
+      "osm_id": "node/13255356826",
+      "expected_osm_name": "Lahmacun Prime",
+      "menu_url": "https://www.lahmacunprime.com/menu/",
+      "menu_type": "official_html",
+      "menu_label": "Menü",
+      "checked_on": "2026-10-11",
+      "evidence": "OSM node and official business website/menu; Altınkum Anadolu Caddesi 41"
+    },
+    {
+      "osm_id": "node/8922453519",
+      "expected_osm_name": "Nasreddin Et & Tandır",
+      "menu_url": "https://www.nasreddinrestoran.com/menu/",
+      "menu_type": "official_html",
+      "menu_label": "Menü",
+      "checked_on": "2026-10-11",
+      "evidence": "OSM restaurant in Altınkum and official address Atatürk Bulvarı 220"
+    },
+    {
+      "osm_id": "node/3722482368",
+      "expected_osm_name": "Topçam Pide Kebap Salonu",
+      "menu_url": "https://www.migros.com.tr/yemek/topcam-pide-kebap-konyaalti-siteler-mah-st-21de7",
+      "menu_type": "external_menu_page",
+      "menu_label": "Menü",
+      "checked_on": "2026-10-11",
+      "evidence": "OSM Topçam Pide Kebap Salonu Siteler and restaurant listing in Siteler"
+    },
+    {
+      "osm_id": "node/9590932658",
+      "expected_osm_name": "Sedir Restoran",
+      "menu_url": "https://nelerimeshur.com/en/antalya/popular-restaurants/sedir-restaurant-konyaalti/menu",
+      "menu_type": "external_menu_page",
+      "menu_label": "Menü",
+      "checked_on": "2026-10-11",
+      "evidence": "OSM Sedir Restoran coordinates Konyaaltı Öğretmenevleri; menu listing address Atatürk Bulvarı 66/A"
+    }
+  ]
+}
