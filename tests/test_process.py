@@ -51,6 +51,9 @@ class FoodExportTests(unittest.TestCase):
     def test_url_safety(self):
         self.assertEqual(valid_link("javascript:alert(1)"), "")
         self.assertEqual(valid_link("https://example.com/menu.pdf"), "https://example.com/menu.pdf")
+        self.assertEqual(valid_link("https://instagram.com/restaurant"), "")
+        self.assertEqual(valid_link("https://www.instagram.com/restaurant"), "")
+        self.assertEqual(valid_link("https://www.yemeksepeti.com/restaurant"), "")
 
 
 if __name__ == "__main__":
